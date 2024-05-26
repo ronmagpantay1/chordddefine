@@ -94,7 +94,7 @@ class MetronomePageState extends State<MetronomePage> {
             child: Row(
               children: [
                 IconButton(
-                  onPressed: ()=> Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const HomePage(), ) ), 
+                  onPressed: ()=> Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const Tuner(), ) ), 
                   icon: const Icon(Icons.arrow_back_ios_new_rounded,color: Colors.white, )),
                 Center(child: Text("Metronome",style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white,fontWeight: FontWeight.w200 ), )),
 

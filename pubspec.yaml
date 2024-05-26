@@ -76,7 +76,7 @@ flutter_launcher_icons:
     icon_size: 48 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "assets/logo.png"
+    image_path: "assets/img/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -93,6 +93,15 @@ flutter:
   assets:
     - assets/
     - assets/audio/
+    - assets/img/chordefine1.png
+    - assets/img/loginbg.jpg
+    - assets/img/chordefinewhite.png
+    - assets/img/jimi.jpg
+    - assets/img/black.jpg
+    - assets/img/ambatukam.jpg
+    - assets/img/beatles.jpg
+    - assets/img/queen.jpg
+    - assets/img/behemoth.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -9,7 +9,7 @@ class RiveBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 218, 71, 71),
       body: Stack(
         children: [
           const RiveAnimation.asset("assets/neptune.riv",),

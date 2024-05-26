@@ -13,21 +13,20 @@ import "../bloc/home_bloc.dart";
 import "../bloc/tunings_cubit/tunings_cubit.dart";
 import "../utils/dialogs.dart";
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class Tuner extends StatefulWidget {
+  const Tuner({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Tuner> createState() => _TunerState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _TunerState extends State<Tuner> {
   List standard = ["E", "A", "D", "G", "B", "E"];
-  var selectedIntrumentIndex  =3;
-  var selectedTuningIndex  =0;
-  String openr ="A#DA#D#GC";
-  List  st =[];
+  var selectedIntrumentIndex = 3;
+  var selectedTuningIndex = 0;
+  String openr = "A#DA#D#GC";
+  List st = [];
   List<String> chars = [];
-
 
   @override
   void initState() {
@@ -43,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     HomeBloc().close();
   }
 
-  recordPerm()async{
+  recordPerm() async {
     if (await Permission.microphone.request().isGranted) {
       // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(
       //   "Permission Granted"
@@ -92,7 +91,8 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         const IconButton(
                           onPressed: null,
-                          icon: Icon(Icons.menu, size: 30, color: Colors.transparent),
+                          icon: Icon(Icons.menu,
+                              size: 30, color: Colors.transparent),
                         ),
                         const Spacer(),
                         Center(
@@ -115,11 +115,12 @@ class _HomePageState extends State<HomePage> {
                                         BoxShadow(
                                             blurRadius: 10,
                                             spreadRadius: 20,
-                                            color:
-                                                context.read<HomeBloc>().status ==
-                                                        "TuningStatus.tuned"
-                                                    ? Colors.green.shade200
-                                                    : Colors.red.shade200)
+                                            color: context
+                                                        .read<HomeBloc>()
+                                                        .status ==
+                                                    "TuningStatus.tuned"
+                                                ? Colors.green.shade200
+                                                : Colors.red.shade200)
                                       ]),
                                   child: Center(
                                     child: Text(
@@ -135,13 +136,18 @@ class _HomePageState extends State<HomePage> {
                         ),
                         const Spacer(),
                         IconButton(
-                          onPressed: () {
-                            BlocProvider.of<HomeBloc>(context).add(const StopRecordingEvent());
-                            HomeBloc().close();
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const MetronomePage(), ) );
-                          },
-                          icon: Image.asset("assets/metronome.png",color: Colors.white, )
-                        ),
+                            onPressed: () {
+                              BlocProvider.of<HomeBloc>(context)
+                                  .add(const StopRecordingEvent());
+                              HomeBloc().close();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const MetronomePage(),
+                                  ));
+                            },
+                            icon: Image.asset("assets/metronome.png",
+                                color: Colors.white, width: 35, height: 35)),
                       ],
                     ),
                     const Spacer(),
@@ -156,7 +162,6 @@ class _HomePageState extends State<HomePage> {
                           fontSize: 60.0,
                           fontWeight: FontWeight.bold),
                     )),
-                    _buildTuningOption(),
                     const Spacer(),
                   ]),
                 );
@@ -192,17 +197,14 @@ class _HomePageState extends State<HomePage> {
                 showTicks: false,
                 minimum: 0,
                 maximum: 99,
-                
                 ranges: <GaugeRange>[
                   GaugeRange(
                     startValue: 0, endValue: 33,
                     // color: const Color(0xFFFE2A25),
                     label: 'Low',
-                    gradient: const SweepGradient(colors: <Color>[
-                      Color(0xFFACB6E5)
-                    ], stops: <double>[
-                      0.25
-                    ]),
+                    gradient: const SweepGradient(
+                        colors: <Color>[Color(0xFFACB6E5)],
+                        stops: <double>[0.25]),
                     sizeUnit: GaugeSizeUnit.factor,
                     labelStyle: const GaugeTextStyle(
                         fontFamily: 'Roboto',
@@ -214,13 +216,9 @@ class _HomePageState extends State<HomePage> {
                     startValue: 33, endValue: 66,
                     // color:const Color(0xFFFFBA00),
                     label: 'Tuned',
-                    gradient: const SweepGradient(colors: <Color>[
-                       Color(0xFFACB6E5),
-                      Color(0xFF74ebd5)
-                    ], stops: <double>[
-                      0.25,
-                      0.75
-                    ]),
+                    gradient: const SweepGradient(
+                        colors: <Color>[Color(0xFFACB6E5), Color(0xFF74ebd5)],
+                        stops: <double>[0.25, 0.75]),
                     labelStyle: const GaugeTextStyle(
                         fontFamily: 'Roboto',
                         color: Colors.white,
@@ -232,11 +230,9 @@ class _HomePageState extends State<HomePage> {
                     startValue: 66, endValue: 99,
                     // color:const Color(0xFF00AB47),
                     label: 'High',
-                    gradient: const SweepGradient(colors: <Color>[
-                      Color(0xFF74ebd5)
-                    ], stops: <double>[
-                      0.75
-                    ]),
+                    gradient: const SweepGradient(
+                        colors: <Color>[Color(0xFF74ebd5)],
+                        stops: <double>[0.75]),
                     labelStyle: const GaugeTextStyle(
                         fontFamily: 'Roboto',
                         color: Colors.white,
@@ -277,129 +273,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-  
-  _buildTuningOption() {
-    return BlocBuilder<TuningsCubit, TuningsState>(
-      builder: (context, state) {
-        if(state is TuningsLoadingState){
-          return const Text('Loading....');
-        }
-        if(state is TuningsLoadedState){
-
-        return Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                MaterialButton(
-                  onPressed: (){
-                    buildDialog(context, Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children:  [
-                        ...List.generate(
-                        state.data.data.length,
-                        (index) => 
-                          ListTile(
-                            onTap: (){
-                              selectedIntrumentIndex = 3;
-                              selectedTuningIndex = 0;
-                              setState(() {
-                                selectedIntrumentIndex = index;
-                                
-                              });
-                              Navigator.pop(context);
-                            },
-                            title: Text(
-                              state.data.data[index].instrument,
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 22),
-                            ),
-                          )
-                        )
-                      ],
-                    ));
-                  },
-                  color: Colors.white.withOpacity(0.3),
-                  child: Column(
-                    children:   [
-                      const Text('Select Instrument',style: TextStyle(
-                        color: Colors.white
-                      ),),
-                       Text( state.data.data[selectedIntrumentIndex].instrument[0].toUpperCase()+state.data.data[selectedIntrumentIndex].instrument.substring(1).toLowerCase(),style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300
-                      ),),
-                    ],
-                  ),
-                ),
 
 
-                ///tunings
-                MaterialButton(
-                  onPressed: (){
-                    buildDialog(context, SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children:  [
-                          ...List.generate(
-                            state.data.data[selectedIntrumentIndex].tunings.length,
-                          (index) => 
-                            ListTile(
-                              onTap: (){
-                                st = [];
-                                setState(() {
-                                  selectedTuningIndex = index;
-                                });
-                                Navigator.pop(context);
-                              },
-                              title: Text(
-                                state.data.data[selectedIntrumentIndex].tunings[index].name,
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 22),
-                              ),
-                            )
-                          )
-                        ],
-                      ),
-                    ));
-                  },
-                  color: Colors.white.withOpacity(0.3),
-                  child: Column(
-                    children:  [
-                      const Text('Select Tuning',style: TextStyle(
-                        color: Colors.white
-                      ),),
-                      Text( state.data.data[selectedIntrumentIndex].tunings[selectedTuningIndex].name,style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300
-                      ),),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:  [
-                ...List.generate(
-                    state.data.data[selectedIntrumentIndex].tunings[selectedTuningIndex].notes.length,
-
-                    (index) => Text(
-                          state.data.data[selectedIntrumentIndex].tunings[selectedTuningIndex].notes[index],
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 30),
-                        ))
-              ],
-            ),
-          ],
-        );
-        }
-        return const Text('Error');
-      },
-    );
-  }
 }
