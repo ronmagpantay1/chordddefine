@@ -3,29 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guitar_tuner/features/home/presentation/bloc/home_bloc.dart';
 
 import 'features/home/presentation/bloc/tunings_cubit/tunings_cubit.dart';
-import 'features/home/presentation/pages/detect.dart';
-import 'features/home/presentation/pages/home_page.dart';
 
-import 'package:guitar_tuner/features/explore2.dart';
-import 'package:guitar_tuner/features/exploremain.dart';
-import 'package:guitar_tuner/features/login.dart';
-import 'package:guitar_tuner/features/loginn.dart';
 import 'package:guitar_tuner/features/logo.dart';
-import 'package:guitar_tuner/features/mainlearn.dart';
-import 'package:guitar_tuner/features/mainmenu1.dart';
-import 'package:guitar_tuner/features/mainmenu2.dart';
-import 'package:guitar_tuner/features/practice2.dart';
-import 'package:guitar_tuner/features/practice3.dart';
-import 'package:guitar_tuner/features/practice4.dart';
-import 'package:guitar_tuner/features/practice5.dart';
-import 'package:guitar_tuner/features/signup.dart';
-import 'package:guitar_tuner/features/userprofile.dart';
-import 'package:guitar_tuner/features/welcome.dart';
-import 'package:guitar_tuner/features/profile.dart';
-import 'package:guitar_tuner/features/practicemain.dart';
+import 'package:camera/camera.dart';
 
-
-void main() {
+List<CameraDescription>? cameras;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   runApp(const MyApp());
 }
 
@@ -50,10 +35,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           home: 
-          // const MetronomePage()
-          // const HomePage(),
            const landing()
-          // const RiveBackground(),
         ));
   }
 }
