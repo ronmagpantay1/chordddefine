@@ -116,8 +116,8 @@ class _DetectChordState extends State<DetectChord> {
     body: Stack(
       children: [
         // Rive Animations (Background)
-        const rv.RiveAnimation.asset("assets/shapes.riv"),
-        const rv.RiveAnimation.asset("assets/shapes.riv", alignment: Alignment.center),
+        rv.RiveAnimation.asset("assets/shapes.riv"),
+        rv.RiveAnimation.asset("assets/shapes.riv", alignment: Alignment.center),
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
@@ -139,7 +139,6 @@ class _DetectChordState extends State<DetectChord> {
           child: Column(
             children: [
               // Audio Detection (Top)
-
               Padding(
                 padding: const EdgeInsets.all(20.0), // Add padding around the note
                 child: BlocBuilder<HomeBloc, HomeState>(
@@ -157,6 +156,7 @@ class _DetectChordState extends State<DetectChord> {
                           style: const TextStyle(
                             fontSize: 60.0,
                             fontWeight: FontWeight.bold,
+                            color: Colors.black, 
                           ),
                         ),
                       ),
@@ -166,30 +166,26 @@ class _DetectChordState extends State<DetectChord> {
               ),
 
               // Camera Preview
-               Expanded( // Use Expanded to fill available space
-                child: RotatedBox(  
-                  quarterTurns: 1,   // Rotate 90 degrees to portrait
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: !cameraController!.value.isInitialized
-                        ? Container()
-                        : CameraPreview(cameraController!),
-                  ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.5, // Adjust camera height as needed
+                  width: MediaQuery.of(context).size.width,
+                  child: !cameraController!.value.isInitialized
+                      ? Container()
+                      : AspectRatio(
+                          aspectRatio: cameraController!.value.aspectRatio,
+                          child: CameraPreview(cameraController!),
+                        ),
                 ),
               ),
 
               // Chord Detection (Bottom)
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  color: Colors.white, // Background for text visibility
-                  child: Text(
-                    output,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 35,
-                    ),
-                  ),
+              Text(
+                output,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 35,
                 ),
               ),
             ],
@@ -199,4 +195,5 @@ class _DetectChordState extends State<DetectChord> {
     ),
   );
 }
+
 }
