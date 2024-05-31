@@ -162,6 +162,7 @@ class _TunerState extends State<Tuner> {
                           fontSize: 60.0,
                           fontWeight: FontWeight.bold),
                     )),
+                    _buildTuningOption(),
                     const Spacer(),
                   ]),
                 );
@@ -274,5 +275,96 @@ class _TunerState extends State<Tuner> {
     );
   }
 
-
+  _buildTuningOption() {
+    return BlocBuilder<TuningsCubit, TuningsState>(
+      builder: (context, state) {
+        if (state is TuningsLoadingState) {
+          return const Text('Loading....');
+        }
+        if (state is TuningsLoadedState) {
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ///tunings
+                  MaterialButton(
+                    onPressed: () {
+                      buildDialog(
+                          context,
+                          SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ...List.generate(
+                                    state.data.data[selectedIntrumentIndex]
+                                        .tunings.length,
+                                    (index) => ListTile(
+                                          onTap: () {
+                                            st = [];
+                                            setState(() {
+                                              selectedTuningIndex = index;
+                                            });
+                                            (context);
+                                          },
+                                          title: Text(
+                                            state
+                                                .data
+                                                .data[selectedIntrumentIndex]
+                                                .tunings[index]
+                                                .name,
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 22),
+                                          ),
+                                        ))
+                              ],
+                            ),
+                          ));
+                    },
+                    color: Colors.white.withOpacity(0.3),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Select Tuning',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Text(
+                          state.data.data[selectedIntrumentIndex]
+                              .tunings[selectedTuningIndex].name,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ...List.generate(
+                      state.data.data[selectedIntrumentIndex]
+                          .tunings[selectedTuningIndex].notes.length,
+                      (index) => Text(
+                            state.data.data[selectedIntrumentIndex]
+                                .tunings[selectedTuningIndex].notes[index],
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 30),
+                          ))
+                ],
+              ),
+            ],
+          );
+        }
+        return const Text('Error');
+      },
+    );
+  }
 }
