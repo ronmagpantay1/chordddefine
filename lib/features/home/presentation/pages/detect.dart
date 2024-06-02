@@ -144,8 +144,8 @@ class _DetectChordState extends State<DetectChord> {
 
   recordPerm() async {
     if (await Permission.microphone.request().isGranted) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Permission Granted")));
+      // ScaffoldMessenger.of(context)
+      //     .showSnackBar(const SnackBar(content: Text("Permission Granted")));
     }
   }
 
